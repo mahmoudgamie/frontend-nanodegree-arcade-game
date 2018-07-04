@@ -59,9 +59,13 @@ Player.prototype.handleInput = function(movement) {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-enemy = new Enemy(0, 6);
+enemy = new Enemy(0, 145);
+enemy2 = new Enemy(0, 60);
+enemy3 = new Enemy(0, 230);
 player = new Player();
 allEnemies.push(enemy);
+allEnemies.push(enemy2);
+allEnemies.push(enemy3);
 
 
 // This listens for key presses and sends the keys to your
