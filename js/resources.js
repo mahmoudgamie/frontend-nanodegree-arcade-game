@@ -107,7 +107,5 @@
         get: get,
         onReady: onReady,
         isReady: isReady
-    };
-    console.log(resourceCache);
-    
+    };    
 })();
