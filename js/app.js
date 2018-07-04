@@ -43,6 +43,11 @@ var Player = function (x, y) {
 }
 
 Player.prototype.update = function () {
+    //checking the wining condition
+    if (player.y === -13) {
+        this.x = 200;
+        this.y = 402;
+    }
 }
 
 Player.prototype.render = function () {
@@ -72,8 +77,6 @@ Player.prototype.handleInput = function (movement) {
             }
     }
     console.log(this.y);
-    console.log(this.x);
-    
 
 }
 
@@ -106,9 +109,9 @@ document.addEventListener('keyup', function (e) {
 function checkCollisions() {
     allEnemies.forEach(enemy => {
         if (enemy.x + 70 > player.x && enemy.x - player.x < 70 && enemy.y === player.y) {
+            //put player in start point
             player.x = 200;
             player.y = 402;
         }
     });
-
 };
