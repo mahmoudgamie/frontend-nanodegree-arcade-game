@@ -42,8 +42,7 @@ var Player = function (x, y) {
     this.boy = 'images/char-boy.png';
 }
 
-Player.prototype.update = function (dt) {
-
+Player.prototype.update = function () {
 }
 
 Player.prototype.render = function () {
@@ -72,6 +71,9 @@ Player.prototype.handleInput = function (movement) {
                 this.y += 83;
             }
     }
+    console.log(this.y);
+    console.log(this.x);
+    
 
 }
 
@@ -79,9 +81,9 @@ Player.prototype.handleInput = function (movement) {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-enemy = new Enemy(0, 145);
-enemy2 = new Enemy(0, 60);
-enemy3 = new Enemy(0, 230);
+enemy = new Enemy(0, 70);
+enemy2 = new Enemy(0, 153);
+enemy3 = new Enemy(0, 236);
 player = new Player(200, 402);
 allEnemies.push(enemy);
 allEnemies.push(enemy2);
@@ -99,3 +101,14 @@ document.addEventListener('keyup', function (e) {
     };
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+// the number 70 represents overlap amount between enemy picture and player picture
+function checkCollisions() {
+    allEnemies.forEach(enemy => {
+        if (enemy.x + 70 > player.x && enemy.x - player.x < 70 && enemy.y === player.y) {
+            player.x = 200;
+            player.y = 402;
+        }
+    });
+
+};
