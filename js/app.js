@@ -1,5 +1,11 @@
 // declaring variables
 var allEnemies = []
+let score = 0;
+let displayScore = document.querySelector('.score');
+let lives = 3;
+let displaylives = document.querySelector('.lives');
+let sForPlural = document.querySelector('.s-for-plural');
+
 // Enemies our player must avoid
 var Enemy = function (x, y) {
     // Variables applied to each of our instances go here,
@@ -48,6 +54,7 @@ Player.prototype.update = function () {
     if (player.y === -13) {
         this.x = 200;
         this.y = 402;
+        score ++;
     }
 }
 
@@ -107,12 +114,20 @@ document.addEventListener('keyup', function (e) {
 });
 
 // the number 70 represents overlap amount between enemy picture and player picture
-function checkCollisions() {
+function checkCollisions() {   
     allEnemies.forEach(enemy => {
         if (enemy.x + 70 > player.x && enemy.x - player.x < 70 && enemy.y === player.y) {
             //put player in start point
             player.x = 200;
             player.y = 402;
+            lives --;
+
         }
     });
 };
+//called in engin.js
+function updateExtras() {
+    displayScore.innerHTML = score;
+    displaylives.innerHTML = lives;
+    sForPlural.innerHTML = lives === 1 ? 'live' : 'lives';
+}
