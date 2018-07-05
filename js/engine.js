@@ -97,6 +97,7 @@ var Engine = (function(global) {
             enemy.update(dt);  
         });
         player.update();
+        youWin();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -188,5 +189,4 @@ var Engine = (function(global) {
     global.ctx = ctx;
     //I need to export the canvas
     global.canvas = canvas;
-    // global.play = play;
 })(this);
