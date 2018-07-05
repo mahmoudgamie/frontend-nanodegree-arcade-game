@@ -81,6 +81,7 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions();
+        acquireGem();
         //this function updates scores, lives ...etc
         updateExtras()
     }

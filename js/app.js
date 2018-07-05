@@ -153,6 +153,14 @@ function checkCollisions() {
         }
     });
 };
+function acquireGem() {
+    allGems.forEach(gem => {
+        if(gem.x === player.x && gem.y === player.y){
+            score += 5;
+            allGems = [];
+        }
+    })
+}
 //called in engin.js
 function updateExtras() {
     displayScore.innerHTML = score;
