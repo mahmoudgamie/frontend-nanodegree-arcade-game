@@ -22,6 +22,7 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
+        //play = false,
         lastTime;
 
     canvas.width = 505;
@@ -163,7 +164,7 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        choosePlayer()
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -175,7 +176,8 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/char-cat-girl.png'
     ]);
     Resources.onReady(init);
 
@@ -186,4 +188,5 @@ var Engine = (function(global) {
     global.ctx = ctx;
     //I need to export the canvas
     global.canvas = canvas;
+    // global.play = play;
 })(this);

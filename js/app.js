@@ -5,6 +5,7 @@ let displayScore = document.querySelector('.score');
 let lives = 3;
 let displaylives = document.querySelector('.lives');
 let sForPlural = document.querySelector('.s-for-plural');
+let play = false;
 
 // Enemies our player must avoid
 var Enemy = function (x, y) {
@@ -36,7 +37,9 @@ Enemy.prototype.update = function (dt) {
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function () {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    if (play) {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
 };
 
 // Now write your own player class
@@ -46,7 +49,7 @@ Enemy.prototype.render = function () {
 var Player = function (x, y) {
     this.x = x;
     this.y = y;
-    this.boy = 'images/char-boy.png';
+    this.char = 'images/char-boy.png';
 }
 
 Player.prototype.update = function () {
@@ -54,38 +57,40 @@ Player.prototype.update = function () {
     if (player.y === -13) {
         this.x = 200;
         this.y = 402;
-        score ++;
+        score++;
     }
 }
 
 Player.prototype.render = function () {
-    ctx.drawImage(Resources.get(this.boy), this.x, this.y)
+    if (play) {
+        ctx.drawImage(Resources.get(this.char), this.x, this.y)
+    }
 }
 
 Player.prototype.handleInput = function (movement) {
-    switch (movement) {
-        case 'right':
-            if (this.x !== 402) {
-                this.x += 101;
-            }
-            break;
-        case 'left':
-            if (this.x !== -2) {
-                this.x -= 101;
-            }
-            break;
-        case 'up':
-            if (this.y !== -13) {
-                this.y -= 83
-            }
-            break;
-        case 'down':
-            if (this.y !== 402) {
-                this.y += 83;
-            }
+    if (play) {
+        switch (movement) {
+            case 'right':
+                if (this.x !== 402) {
+                    this.x += 101;
+                }
+                break;
+            case 'left':
+                if (this.x !== -2) {
+                    this.x -= 101;
+                }
+                break;
+            case 'up':
+                if (this.y !== -13) {
+                    this.y -= 83
+                }
+                break;
+            case 'down':
+                if (this.y !== 402) {
+                    this.y += 83;
+                }
+        }
     }
-    console.log(this.y);
-
 }
 
 // Now instantiate your objects.
@@ -114,14 +119,13 @@ document.addEventListener('keyup', function (e) {
 });
 
 // the number 70 represents overlap amount between enemy picture and player picture
-function checkCollisions() {   
+function checkCollisions() {
     allEnemies.forEach(enemy => {
         if (enemy.x + 70 > player.x && enemy.x - player.x < 70 && enemy.y === player.y) {
             //put player in start point
             player.x = 200;
             player.y = 402;
-            lives --;
-
+            lives--;
         }
     });
 };
@@ -130,4 +134,35 @@ function updateExtras() {
     displayScore.innerHTML = score;
     displaylives.innerHTML = lives;
     sForPlural.innerHTML = lives === 1 ? 'live' : 'lives';
+}
+
+function choosePlayer() {
+    swal({
+        title: "Choose Player",
+        input: 'select',
+        inputOptions: {
+            '1': 'Boy',
+            '2': 'Girl',
+        },
+        inputValidator: function (value) {
+            return new Promise(function (resolve, reject) {
+                if (value !== '') {
+                    resolve();
+                } else {
+                    reject('You need to select a Player');
+                }
+            });
+        },
+        //icon: "success",
+        button: "Start Game",
+    }).then(function (result) {
+        if (result) {
+            if(result === '1'){
+                player.char = 'images/char-boy.png';
+            } else {
+                player.char = 'images/char-cat-girl.png';
+            }
+            play = true;
+        }
+    });
 }
