@@ -1,11 +1,15 @@
 // declaring variables
-var allEnemies = []
-let score = 0;
-let displayScore = document.querySelector('.score');
-let lives = 3;
-let displaylives = document.querySelector('.lives');
-let sForPlural = document.querySelector('.s-for-plural');
-let play = false;
+var allEnemies = [],
+    allGems = [];
+let score = 0,
+    displayScore = document.querySelector('.score'),
+    lives = 3,
+    displaylives = document.querySelector('.lives'),
+    sForPlural = document.querySelector('.s-for-plural'),
+    play = false,
+    //this arrays holds all possible Y-axis positions for enemies, and gems
+    all_y_positions = [70, 153, 236],
+    all_x_positions = [402, 301, 200, 99, -2];
 
 // Enemies our player must avoid
 var Enemy = function (x, y) {
@@ -54,7 +58,8 @@ Player.prototype.update = function (dt) {
         this.x = 200;
         this.y = 402;
         score++;
-        enemyFactory();
+        enemyFactory(all_y_positions);
+        gemFactory(all_x_positions, all_y_positions);
     }
 }
 
@@ -70,11 +75,14 @@ Player.prototype.handleInput = function (movement) {
             case 'right':
                 if (this.x !== 402) {
                     this.x += 101;
+                    console.log(this.x);
+
                 }
                 break;
             case 'left':
                 if (this.x !== -2) {
                     this.x -= 101;
+                    console.log(this.x);
                 }
                 break;
             case 'up':
@@ -90,18 +98,35 @@ Player.prototype.handleInput = function (movement) {
     }
 }
 
+var Gem = function (x, y) {
+    this.x = x;
+    this.y = y
+    this.gemType = 'images/Gem Green.png'
+}
 
-function enemyFactory() {
-    //this array holds all possible Y-axis positions for enemies
-    let allPositions = [70, 153, 236]
-    let position = randomPosition(allPositions)
-    enemy = new Enemy(0, position);
+Gem.prototype.render = function () {
+    if (play) {
+        ctx.drawImage(Resources.get(this.gemType), this.x, this.y);
+    }
+};
+
+
+function enemyFactory(arrayOfPositions) {
+    let position = randomPosition(arrayOfPositions)
+    var enemy = new Enemy(0, position);
     allEnemies.push(enemy);
 }
 
+function gemFactory(x_positions_array, y_positions_array) {
+    allGems = [];
+    let x_position = randomPosition(x_positions_array);
+    let y_position = randomPosition(y_positions_array);
+    var gem = new Gem(x_position, y_position);
+    allGems.push(gem);
+}
 
-//a helper function to generate automatic positioning for enemis
-function randomPosition(array){
+//a helper function to generate automatic positioning for enemis and gems
+function randomPosition(array) {
     return array[Math.floor(Math.random() * array.length)];
 }
 
@@ -167,8 +192,8 @@ function choosePlayer() {
 }
 
 //first time enemy instanstiation then this method called in player.update()
-enemyFactory();
+enemyFactory(all_y_positions);
 
-player = new Player(200, 402);
+var player = new Player(200, 402);
 
 
