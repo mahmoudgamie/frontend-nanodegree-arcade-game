@@ -1,6 +1,7 @@
 // declaring variables
 var allEnemies = [],
-    allGems = [];
+    allGems = [],
+    player;
 let score = 0,
     displayScore = document.querySelector('.score'),
     lives = 3,
@@ -80,14 +81,11 @@ Player.prototype.handleInput = function (movement) {
             case 'right':
                 if (this.x !== 402) {
                     this.x += 101;
-                    console.log(this.x);
-
                 }
                 break;
             case 'left':
                 if (this.x !== -2) {
                     this.x -= 101;
-                    console.log(this.x);
                 }
                 break;
             case 'up':
@@ -220,10 +218,7 @@ function scoreModal() {
     }
 }
 
-//first time enemy instanstiation then this method called in player.update()
+//first time enemy and gem instanstiations then this methods are called in player.update()
 enemyFactory(all_y_positions);
 gemFactory(all_x_positions, all_y_positions);
-
-var player = new Player(200, 402);
-
-scoreModal();
+player = new Player(200, 402);
