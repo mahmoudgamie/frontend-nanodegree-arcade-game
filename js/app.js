@@ -1,3 +1,4 @@
+'use strict'
 // declaring variables
 var allEnemies = [],
     allGems = [],
