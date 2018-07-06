@@ -128,7 +128,8 @@ function gemFactory(x_positions_array, y_positions_array) {
     allGems.push(gem);
 }
 
-//a helper function to generate automatic positioning for enemis and gems
+//a helper function from stackoverflow.com to generate automatic positioning for enemis and gems
+// https://stackoverflow.com/questions/4550505/getting-a-random-value-from-a-javascript-array
 function randomPosition(array) {
     return array[Math.floor(Math.random() * array.length)];
 }
