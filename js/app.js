@@ -9,7 +9,11 @@ let score = 0,
     play = false,
     //this arrays holds all possible Y-axis positions for enemies, and gems
     all_y_positions = [70, 153, 236],
-    all_x_positions = [402, 301, 200, 99, -2];
+    all_x_positions = [402, 301, 200, 99, -2],
+    all_gems = ['images/Gem Blue.png',
+        'images/Gem Green.png',
+        'images/Gem Orange.png'],
+    flag = false;
 
 // Enemies our player must avoid
 var Enemy = function (x, y) {
@@ -54,6 +58,7 @@ var Player = function (x, y) {
 
 Player.prototype.update = function (dt) {
     //checking the wining condition
+
     if (player.y === -13) {
         this.x = 200;
         this.y = 402;
@@ -101,7 +106,7 @@ Player.prototype.handleInput = function (movement) {
 var Gem = function (x, y) {
     this.x = x;
     this.y = y
-    this.gemType = 'images/Gem Green.png'
+    this.gemType = randomPosition(all_gems);
 }
 
 Gem.prototype.render = function () {
@@ -150,12 +155,16 @@ function checkCollisions() {
             player.x = 200;
             player.y = 402;
             lives--;
+            if (lives === 0) {
+                flag = true;
+            }
+            scoreModal();
         }
     });
 };
 function acquireGem() {
     allGems.forEach(gem => {
-        if(gem.x === player.x && gem.y === player.y){
+        if (gem.x === player.x && gem.y === player.y) {
             score += 5;
             allGems = [];
         }
@@ -175,18 +184,7 @@ function choosePlayer() {
         inputOptions: {
             '1': 'Boy',
             '2': 'Girl',
-        },
-        inputValidator: function (value) {
-            return new Promise(function (resolve, reject) {
-                if (value !== '') {
-                    resolve();
-                } else {
-                    reject('You need to select a Player');
-                }
-            });
-        },
-        //icon: "success",
-        button: "Start Game",
+        }
     }).then(function (result) {
         if (result) {
             if (result === '1') {
@@ -196,12 +194,36 @@ function choosePlayer() {
             }
             play = true;
         }
-    });
+    }).catch(swal.noop);
+}
+
+function scoreModal() {
+    if (flag) {
+        flag = false;
+        play = false;
+        swal({
+            title: 'Game Over',
+            text: `Your Score is ${score}`,
+            type: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Play again'
+        }).then(result => {
+            if (result) {
+                score = 0;
+                lives = 3;
+                play = true;
+                allEnemies = [];
+                enemyFactory(all_y_positions);
+                gemFactory(all_x_positions, all_y_positions);
+            }
+        }).catch(swal.noop)
+    }
 }
 
 //first time enemy instanstiation then this method called in player.update()
 enemyFactory(all_y_positions);
+gemFactory(all_x_positions, all_y_positions);
 
 var player = new Player(200, 402);
 
-
+scoreModal();

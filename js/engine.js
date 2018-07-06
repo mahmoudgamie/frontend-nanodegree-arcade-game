@@ -22,7 +22,6 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        //play = false,
         lastTime;
 
     canvas.width = 505;
@@ -83,7 +82,7 @@ var Engine = (function(global) {
         checkCollisions();
         acquireGem();
         //this function updates scores, lives ...etc
-        updateExtras()
+        updateExtras();
     }
 
     /* This is called by the update function and loops through all of the
@@ -168,7 +167,7 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        choosePlayer()
+        choosePlayer();
     }
 
     /* Go ahead and load all of the images we know we're going to need to
